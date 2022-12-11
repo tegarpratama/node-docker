@@ -1,0 +1,47 @@
+# create image
+docker build  -t node-app-image .
+
+# run container
+docker run -d -p 3000:3000 --name node-app node-app-image
+
+docker run -d -p 3000:3000 -v ${pwd}:/app --name node-app node-app-image
+
+docker run -d -p 3000:3000 -v ${pwd}:/app -v /app/node_modules --name node-app node-app-image
+
+docker run -d -p 3000:3000 -v ${pwd}:/app:ro -v /app/node_modules --name node-app node-app-image
+
+docker run -d -p 3000:4000 -v ${pwd}:/app:ro -v /app/node_modules --env PORT=4000 --name node-app node-app-image
+
+docker run -d -p 3000:4000 -v ${pwd}:/app:ro -v /app/node_modules --env-file ./.env --name node-app node-app-image
+
+# enter the container
+docker exec -it node-app bash
+
+docker exec -it node-docker-redis-1 redis-cli
+
+docker exec -it node-docker-mongo-1 mongosh
+
+# delete container with volume
+docker rm node-app -fv
+
+# build with compose
+docker-compose up -d
+
+docker-compose up -d --build
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+
+# shutdown compose
+docker-compose down 
+
+docker-compose down -v
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -v
+
+# another way exec mongo
+docker exec -it node-docker-mongo-1 mongosh -u "root" -p "password"
+
+# scale up container
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --scale node-app=2
