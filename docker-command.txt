@@ -33,6 +33,12 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build node-app
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --no-deps node-app
+
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate --no-deps node-app
+
 # shutdown compose
 docker-compose down 
 
@@ -45,3 +51,9 @@ docker exec -it node-docker-mongo-1 mongosh -u "root" -p "password"
 
 # scale up container
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --scale node-app=2
+
+# clone docker image for preparing push into docker hub
+docker image tag node-docker-node-app halloegar/node-app
+
+# push into docker hub
+docker push halloegar/node-app
