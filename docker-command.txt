@@ -57,3 +57,8 @@ docker image tag node-docker-node-app halloegar/node-app
 
 # push into docker hub
 docker push halloegar/node-app
+
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml push
+
+# pull from server
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
