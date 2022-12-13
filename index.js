@@ -64,7 +64,7 @@ app.use(express.json())
 
 app.get('/api/v1/', (req, res) => {
   console.log('Test container load balancing')
-  res.send('<h2>Hello Egar</h2>')
+  res.send('<h2>Welcome Back Egar!</h2>')
 })
 
 app.use('/api/v1/posts', postRoutes)
