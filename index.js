@@ -36,7 +36,7 @@ const connectWithRetry = () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
-    .then(() => console.log('successfully connected to DB'))
+    .then(() => console.log('Successfully connected to DB'))
     .catch((e) => {
       console.log(e)
       setTimeout(connectWithRetry, 5000)
@@ -63,8 +63,14 @@ app.use(
 app.use(express.json())
 
 app.get('/api/v1/', (req, res) => {
-  console.log('Test container load balancing')
   res.send('<h2>Welcome Back Egar!</h2>')
+})
+
+app.get('/api/v1/check-health', (req, res) => {
+  console.log('Test container load balancing')
+  res.status(200).json({
+    status: 'Its Work',
+  })
 })
 
 app.use('/api/v1/posts', postRoutes)
