@@ -67,7 +67,7 @@ app.get('/api/v1/', (req, res) => {
 })
 
 app.get('/api/v1/check-health', (req, res) => {
-  console.log('Test container load balancing')
+  console.log('Test container load balancing!')
   res.status(200).json({
     status: 'Its Work',
   })
