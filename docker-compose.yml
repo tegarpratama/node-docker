@@ -7,7 +7,7 @@ services:
 
   node-app:
     build: .
-    image: egardev/node-app # for pulling from dockerhub
+    image: egardev/node-app # for pulling from dockerhub (if was uploaded to docker registry)
     # ports: # disable when using nginx
     #   - '3000:3000' # disable when using nginx
     environment:

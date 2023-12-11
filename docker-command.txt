@@ -1,51 +1,43 @@
-# create image
-docker build  -t node-app-image .
+# create image from dockerfile
+docker build .
+
+# create image from docker file with spesific name
+docker build  -t <name> .
+docker build  -t node-app .
+
+# delete image
+docker image rm <docker_image_name>
+
+# stop container and delete image
+docker image rm <docker_image_name> -f
 
 # run container
-docker run -d -p 3000:3000 --name node-app node-app-image
-
-docker run -d -p 3000:3000 -v ${pwd}:/app --name node-app node-app-image
-
-docker run -d -p 3000:3000 -v ${pwd}:/app -v /app/node_modules --name node-app node-app-image
-
-docker run -d -p 3000:3000 -v ${pwd}:/app:ro -v /app/node_modules --name node-app node-app-image
-
-docker run -d -p 3000:4000 -v ${pwd}:/app:ro -v /app/node_modules --env PORT=4000 --name node-app node-app-image
-
 docker run -d -p 3000:4000 -v ${pwd}:/app:ro -v /app/node_modules --env-file ./.env --name node-app node-app-image
+docker run -d -p <external_port>:<internal_port> -v ${pwd}:/<internal_directory_code_stored>:ro -v <anonymous_volume_name> --env-file ./<env_stored> --name <docker_image_name> <docker_container_name>
 
 # enter the container
+docker exec -it <container_name> <cli_type>
 docker exec -it node-app bash
-
 docker exec -it node-docker-redis-1 redis-cli
-
 docker exec -it node-docker-mongo-1 mongosh
 
 # delete container with volume
+docker rm <container_name> -fv
 docker rm node-app -fv
 
 # build with compose
 docker-compose up -d
-
 docker-compose up -d --build
-
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
-
 docker-compose --env-file ./.env -f docker-compose.yml -f docker-compose.dev.yml up -d
-
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
-
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build node-app
-
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --no-deps node-app
-
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build --force-recreate --no-deps node-app
 
 # shutdown compose
 docker-compose down 
-
 docker-compose down -v
-
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -v
 
 # another way exec mongo
@@ -55,11 +47,11 @@ docker exec -it node-docker-mongo-1 mongosh -u "root" -p "password"
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --scale node-app=2
 
 # clone docker image for preparing push into docker hub
+docker image tag <image_name_after_build> halloegar/node-app
 docker image tag node-docker-node-app halloegar/node-app
 
 # push into docker hub
 docker push halloegar/node-app
-
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml push {image_name}
 
 # pull from server
